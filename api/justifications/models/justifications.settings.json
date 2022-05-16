@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "justifications",
+  "info": {
+    "name": "justifications",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "note": {
+      "type": "text"
+    },
+    "file_join": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "user": {
+      "via": "justifications",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "validation_status": {
+      "type": "enumeration",
+      "enum": [
+        "waiting_validation",
+        "accepted",
+        "rejected"
+      ],
+      "default": "waiting_validation"
+    },
+    "attendances": {
+      "collection": "attendance",
+      "via": "justification"
+    }
+  }
+}

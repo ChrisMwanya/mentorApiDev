@@ -1,0 +1,14 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/password",
+      "handler": "password.index"
+    },
+    {
+      "method": "GET",
+      "path": "/password/user_state/:identifier",
+      "handler": "password.findUserByEmail"
+    }
+  ]
+}

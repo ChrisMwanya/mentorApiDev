@@ -1,0 +1,118 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/attendances",
+      "handler": "attendance.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/count",
+      "handler": "attendance.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/:id",
+      "handler": "attendance.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/value_code/:value_qrcode",
+      "handler": "attendance.findByValueCode",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/all-of-day/:date&:user",
+      "handler": "attendance.findAllAttendanceByDate",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/attendance_date/:date&:user",
+      "handler": "attendance.findAttendanceByDate",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/all_attendance_by_student/:user",
+      "handler": "attendance.findAllStudentAttendance",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/class_attendances/rate/:name",
+      "handler": "attendance.getClaasAttendanceRate",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/class_attendances/:name",
+      "handler": "attendance.findStudentAttendancesByClass",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/attendances",
+      "handler": "attendance.createAttendance",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/attendances/absent",
+      "handler": "attendance.setAbsent",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/attendances/:id",
+      "handler": "attendance.updateAttendance",
+      "config": {
+        "policies": []
+      }
+    },
+
+    {
+      "method": "PUT",
+      "path": "/attendances/justification/:id",
+      "handler": "attendance.setJustification",
+      "config": {
+        "policies": []
+      }
+    },
+
+    {
+      "method": "DELETE",
+      "path": "/attendances/:id",
+      "handler": "attendance.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

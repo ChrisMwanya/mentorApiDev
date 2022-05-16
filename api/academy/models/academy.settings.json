@@ -1,0 +1,32 @@
+{
+  "kind": "collectionType",
+  "collectionName": "academies",
+  "info": {
+    "name": "academy",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "classes": {
+      "via": "academy",
+      "collection": "class"
+    },
+    "personnel": {
+      "via": "academy",
+      "plugin": "users-permissions",
+      "collection": "user"
+    },
+    "students": {
+      "plugin": "users-permissions",
+      "collection": "user"
+    }
+  }
+}

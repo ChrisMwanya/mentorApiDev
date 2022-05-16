@@ -1,0 +1,45 @@
+{
+  "kind": "collectionType",
+  "collectionName": "attendances",
+  "info": {
+    "name": "attendance",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "state": {
+      "type": "string",
+      "required": true,
+      "default": "waiting"
+    },
+    "date": {
+      "type": "datetime"
+    },
+    "value_qrcode": {
+      "type": "text"
+    },
+    "user_socket_id": {
+      "type": "string"
+    },
+    "attendance_day": {
+      "type": "datetime"
+    },
+    "user_attendance": {
+      "via": "attendances",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "half_day": {
+      "type": "boolean"
+    },
+    "justification": {
+      "via": "attendances",
+      "model": "justifications"
+    }
+  }
+}

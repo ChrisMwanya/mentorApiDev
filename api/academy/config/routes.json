@@ -1,0 +1,62 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/academies",
+      "handler": "academy.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/academies/count",
+      "handler": "academy.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/academies/:id",
+      "handler": "academy.findOne",
+      "config": {
+        "policies": []
+      }
+    }
+    ,
+    {
+      "method": "GET",
+      "path": "/academies/students/:name",
+      "handler": "academy.findAcademyStudents",
+      "config": {
+        "policies": []
+      }
+    }
+    ,
+    {
+      "method": "POST",
+      "path": "/academies",
+      "handler": "academy.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/academies/:id",
+      "handler": "academy.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/academies/:id",
+      "handler": "academy.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}
