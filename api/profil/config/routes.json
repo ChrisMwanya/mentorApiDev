@@ -47,6 +47,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "GET",
+      "path": "/profil",
+      "handler": "profil.getStudent",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
