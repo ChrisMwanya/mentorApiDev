@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "projects_releazeds",
+  "info": {
+    "name": "projects_releazed"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "start_date": {
+      "type": "date"
+    },
+    "end_date": {
+      "type": "date"
+    },
+    "link": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "profils": {
+      "collection": "profil",
+      "via": "projects_releazeds",
+      "dominant": true
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "kind": "collectionType",
+  "collectionName": "profils",
+  "info": {
+    "name": "profil",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "bio": {
+      "type": "string"
+    },
+    "link_portfolio": {
+      "type": "string"
+    },
+    "link_linkedin": {
+      "type": "string"
+    },
+    "cv": {
+      "type": "string"
+    },
+    "lettre_motivation": {
+      "type": "string"
+    },
+    "pdi": {
+      "type": "string"
+    },
+    "github": {
+      "type": "string"
+    },
+    "users_permissions_user": {
+      "via": "profil",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "trainning": {
+      "model": "trainning",
+      "via": "profils"
+    },
+    "projects_releazeds": {
+      "via": "profils",
+      "collection": "projects-releazed"
+    }
+  }
+}

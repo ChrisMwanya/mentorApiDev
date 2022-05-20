@@ -77,6 +77,16 @@
     "justifications": {
       "via": "user",
       "collection": "justifications"
+    },
+    "profil": {
+      "via": "users_permissions_user",
+      "model": "profil"
+    },
+    "firstname": {
+      "type": "string"
+    },
+    "lastname": {
+      "type": "string"
     }
   }
 }

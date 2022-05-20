@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "trainnings",
+  "info": {
+    "name": "trainning"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "profils": {
+      "via": "trainning",
+      "collection": "profil"
+    }
+  }
+}
