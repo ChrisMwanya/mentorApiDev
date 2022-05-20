@@ -50,7 +50,7 @@
     },
     {
       "method": "GET",
-      "path": "/profil",
+      "path": "/student_identifier",
       "handler": "profil.getStudent",
       "config": {
         "policies": []
