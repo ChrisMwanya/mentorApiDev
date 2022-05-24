@@ -87,6 +87,9 @@
     },
     "lastname": {
       "type": "string"
+    },
+    "photo_link": {
+      "type": "string"
     }
   }
 }

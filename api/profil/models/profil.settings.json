@@ -43,7 +43,7 @@
       "via": "profils"
     },
     "projects_releazeds": {
-      "via": "profils",
+      "via": "profil",
       "collection": "projects-releazed"
     }
   }
