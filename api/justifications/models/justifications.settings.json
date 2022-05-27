@@ -49,6 +49,9 @@
     "attendances": {
       "collection": "attendance",
       "via": "justification"
+    },
+    "feedback": {
+      "type": "richtext"
     }
   }
 }

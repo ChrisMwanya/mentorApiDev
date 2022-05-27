@@ -6,14 +6,11 @@
  */
 
 const { sanitizeEntity } = require("strapi-utils");
-const ObjectId = require("mongodb").ObjectId;
 
 module.exports = {
   async findOneByUser(ctx) {
     const { id } = ctx.params;
-    const entity = await strapi.query("justifications").model.find();
-
-    console.log("entity of ", id);
+    const entity = await strapi.query("justifications").model.find({user: id});
 
     return sanitizeEntity(entity, { model: strapi.models.attendance });
   },
