@@ -2,16 +2,6 @@
 
 const { sanitizeEntity } = require("strapi-utils");
 
-/*
-
-Create post justification : set id justification on attendance filtered in range
-
-Set Status pending ("waiting validation") on send justifications
-
-Validate justification with message (dates!)
-
-*/
-
 module.exports = {
   async findByValueCode(ctx) {
     const { value_qrcode } = ctx.params;
@@ -193,61 +183,243 @@ module.exports = {
   },
 
   async getClaasAttendanceRate(ctx) {
-    const { name } = ctx.params;
-    let allStudentAttendancesClass = [];
+    const classAsiduity = getClassAssuidity(ctx);
+    return classAsiduity;
+  },
+
+  async getAcademyAttendanceRate(ctx) {
+    const { academy } = ctx.params;
+
+    const acdemiesResponse = await strapi
+      .query("academy")
+      .model.findOne({ name: academy });
+
+    let allStudentAttendancesAcademy = [];
     let totalAttendance = 0;
     let totalLateRate = 0;
     let totalAbsentRate = 0;
     let totalPresentRate = 0;
 
-    const studentClass = await strapi.query("class").model.findOne({ name });
-    let studentAttendances = await studentClass.student;
+    let studentAttendances = acdemiesResponse.students;
 
     for (const studentId of studentAttendances) {
-      const studentAttendance = {};
-      const studentAttendancesResponse = await strapi
-        .query("attendance")
-        .model.find({ user_attendance: studentId });
+      const studentAttendance = await getStudentAssiduity(studentId);
 
-      const studentName = await strapi
-        .query("user", "users-permissions")
-        .model.findOne({ _id: studentId });
-
-      studentAttendance.name = studentName.username;
-      studentAttendance.attendance = await studentAttendancesResponse.map(
-        ({ createdAt, state }) => ({
-          createdAt,
-          state,
-        })
-      );
-      studentAttendance.id = studentId;
-
-      allStudentAttendancesClass.push(studentAttendance);
+      allStudentAttendancesAcademy.push(studentAttendance);
     }
 
-    allStudentAttendancesClass.map((attendanceStudentObject) => {
-      totalAttendance =
-        totalAttendance + attendanceStudentObject.attendance.length;
-      const lateAttendance = attendanceStudentObject.attendance.filter(
-        ({ state }) => state === "late"
-      );
-      const absentAttendance = attendanceStudentObject.attendance.filter(
-        ({ state }) => state === "absent"
-      );
-      const presentAttendance = attendanceStudentObject.attendance.filter(
-        ({ state }) => state === "present"
-      );
+    if (allStudentAttendancesAcademy.length > 0) {
+      allStudentAttendancesAcademy.map((attendanceStudentObject) => {
+        totalAttendance =
+          totalAttendance + attendanceStudentObject.totalAttendance;
+        const lateAttendance = attendanceStudentObject.lateAttendance;
+        const absentAttendance = attendanceStudentObject.absentAttendance;
+        const presentAttendance = attendanceStudentObject.presentAttendance;
 
-      totalLateRate = totalLateRate + lateAttendance.length;
-      totalAbsentRate = totalAbsentRate + absentAttendance.length;
-      totalPresentRate = totalPresentRate + presentAttendance.length;
-    });
+        totalLateRate = totalLateRate + lateAttendance;
+        totalAbsentRate = totalAbsentRate + absentAttendance;
+        totalPresentRate = totalPresentRate + presentAttendance;
+      });
+
+      totalLateRate = parseInt((100 * totalLateRate) / totalAttendance);
+      totalAbsentRate = parseInt((100 * totalAbsentRate) / totalAttendance);
+      totalPresentRate = parseInt((100 * totalPresentRate) / totalAttendance);
+    }
+
+    totalLateRate =
+      totalLateRate === NaN || totalLateRate === null ? totalLateRate : 0;
+    totalAbsentRate =
+      totalAbsentRate === NaN || totalAbsentRate === null ? totalAbsentRate : 0;
+    totalPresentRate =
+      totalPresentRate === NaN || totalPresentRate === null
+        ? totalPresentRate
+        : 0;
 
     return {
-      totalAttendance,
       totalLateRate,
       totalAbsentRate,
       totalPresentRate,
     };
   },
+  async getAcademyTotalRate(ctx) {
+    const allAcademiesResponse = await strapi.query("academy").model.find();
+    let totalAttendance = 0;
+    let totalLateRate = 0;
+    let totalAbsentRate = 0;
+    let totalPresentRate = 0;
+
+    for (const academy of allAcademiesResponse) {
+      const acdemiesResponse = await strapi
+        .query("academy")
+        .model.findOne({ name: academy.name });
+
+      let allStudentAttendancesAcademy = [];
+
+      let studentAttendances = acdemiesResponse.students;
+
+      for (const studentId of studentAttendances) {
+        const studentAttendance = await getStudentAssiduity(studentId);
+
+        allStudentAttendancesAcademy.push(studentAttendance);
+      }
+
+      if (allStudentAttendancesAcademy.length > 0) {
+        allStudentAttendancesAcademy.map((attendanceStudentObject) => {
+          totalAttendance =
+            totalAttendance + attendanceStudentObject.totalAttendance;
+          const lateAttendance = attendanceStudentObject.lateAttendance;
+          const absentAttendance = attendanceStudentObject.absentAttendance;
+          const presentAttendance = attendanceStudentObject.presentAttendance;
+
+          totalLateRate = totalLateRate + lateAttendance;
+          totalAbsentRate = totalAbsentRate + absentAttendance;
+          totalPresentRate = totalPresentRate + presentAttendance;
+        });
+
+        totalLateRate = parseInt((100 * totalLateRate) / totalAttendance);
+        totalAbsentRate = parseInt((100 * totalAbsentRate) / totalAttendance);
+        totalPresentRate = parseInt((100 * totalPresentRate) / totalAttendance);
+      }
+
+      totalLateRate =
+        totalLateRate === NaN || totalLateRate === null ? 0 : totalLateRate;
+      totalAbsentRate =
+        totalAbsentRate === NaN || totalAbsentRate === null
+          ? 0
+          : totalAbsentRate;
+      totalPresentRate =
+        totalPresentRate === NaN || totalPresentRate === null
+          ? 0
+          : totalPresentRate;
+    }
+
+    return {
+      totalLateRate,
+      totalAbsentRate,
+      totalPresentRate,
+    };
+  },
+};
+
+const getStudentAssiduity = async (studentId) => {
+  let totalAttendance = 0;
+  let totalLateRate = 0;
+  let totalAbsentRate = 0;
+  let totalPresentRate = 0;
+
+  const studentAttendance = {};
+  const studentAttendancesResponse = await strapi
+    .query("attendance")
+    .model.find({ user_attendance: studentId });
+
+  const studentName = await strapi
+    .query("user", "users-permissions")
+    .model.findOne({ _id: studentId });
+
+  studentAttendance.name = studentName.username;
+  studentAttendance.attendance = await studentAttendancesResponse.map(
+    ({ createdAt, state, half_day }) => ({
+      createdAt,
+      state,
+      half_day,
+    })
+  );
+
+  studentAttendance.id = studentId;
+
+  if (studentAttendancesResponse.length > 0) {
+    totalAttendance =
+      totalAttendance + (studentAttendancesResponse.length || 0);
+    const absentAttendance = studentAttendancesResponse.filter(
+      ({ state, half_day }) => state === "absent" || half_day === true
+    );
+    const lateAttendance = studentAttendancesResponse.filter(
+      ({ state, half_day }) => state === "late" && half_day === false
+    );
+
+    const presentAttendance = studentAttendancesResponse.filter(
+      ({ state, half_day }) => state === "present" && half_day === false
+    );
+
+    totalLateRate = parseInt((100 * lateAttendance.length) / totalAttendance);
+    totalAbsentRate = parseInt(
+      (100 * absentAttendance.length) / totalAttendance
+    );
+    totalPresentRate = parseInt(
+      (100 * presentAttendance.length) / totalAttendance
+    );
+
+    studentAttendance.totalLateRate = totalLateRate;
+    studentAttendance.totalAbsentRate = totalAbsentRate;
+    studentAttendance.totalPresentRate = totalPresentRate;
+
+    studentAttendance.lateAttendance = parseInt(lateAttendance.length);
+    studentAttendance.absentAttendance = parseInt(absentAttendance.length);
+    studentAttendance.presentAttendance = parseInt(presentAttendance.length);
+
+    studentAttendance.totalAttendance = totalAttendance;
+  } else {
+    studentAttendance.totalLateRate = 0;
+    studentAttendance.totalAbsentRate = 0;
+    studentAttendance.totalPresentRate = 0;
+
+    studentAttendance.lateAttendance = 0;
+    studentAttendance.absentAttendance = 0;
+    studentAttendance.presentAttendance = 0;
+
+    studentAttendance.totalAttendance = 0;
+  }
+
+  return studentAttendance;
+};
+
+const getClassAssuidity = async (ctx) => {
+  const { name } = ctx.params;
+  let allStudentAttendancesClass = [];
+  let totalAttendance = 0;
+  let totalLateRate = 0;
+  let totalAbsentRate = 0;
+  let totalPresentRate = 0;
+
+  const studentClass = await strapi.query("class").model.findOne({ name });
+  let studentAttendances = await studentClass.student;
+
+  for (const studentId of studentAttendances) {
+    const studentAttendance = await getStudentAssiduity(studentId);
+
+    allStudentAttendancesClass.push(studentAttendance);
+  }
+
+  if (allStudentAttendancesClass.length > 0) {
+    allStudentAttendancesClass.map((attendanceStudentObject) => {
+      totalAttendance =
+        totalAttendance + attendanceStudentObject.totalAttendance;
+      const lateAttendance = attendanceStudentObject.lateAttendance;
+      const absentAttendance = attendanceStudentObject.absentAttendance;
+      const presentAttendance = attendanceStudentObject.presentAttendance;
+
+      totalLateRate = totalLateRate + lateAttendance;
+      totalAbsentRate = totalAbsentRate + absentAttendance;
+      totalPresentRate = totalPresentRate + presentAttendance;
+    });
+
+    totalLateRate = parseInt((100 * totalLateRate) / totalAttendance);
+    totalAbsentRate = parseInt((100 * totalAbsentRate) / totalAttendance);
+    totalPresentRate = parseInt((100 * totalPresentRate) / totalAttendance);
+  }
+
+  totalLateRate =
+    totalLateRate === NaN || totalLateRate === null ? 0 : totalLateRate;
+  totalAbsentRate =
+    totalAbsentRate === NaN || totalAbsentRate === null ? 0 : totalAbsentRate;
+  totalPresentRate =
+    totalPresentRate === NaN || totalPresentRate === null
+      ? 0
+      : totalPresentRate;
+
+  return {
+    totalLateRate,
+    totalAbsentRate,
+    totalPresentRate,
+  };
 };

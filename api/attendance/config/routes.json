@@ -42,6 +42,30 @@
     },
     {
       "method": "GET",
+      "path": "/attendances/class_attendances/rate/:name",
+      "handler": "attendance.getClaasAttendanceRate",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/academy/total/rate",
+      "handler": "attendance.getAcademyTotalRate",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/attendances/academy/rate/:academy",
+      "handler": "attendance.getAcademyAttendanceRate",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
       "path": "/attendances/attendance_date/:date&:user",
       "handler": "attendance.findAttendanceByDate",
       "config": {
@@ -52,14 +76,6 @@
       "method": "GET",
       "path": "/attendances/all_attendance_by_student/:user",
       "handler": "attendance.findAllStudentAttendance",
-      "config": {
-        "policies": []
-      }
-    },
-    {
-      "method": "GET",
-      "path": "/attendances/class_attendances/rate/:name",
-      "handler": "attendance.getClaasAttendanceRate",
       "config": {
         "policies": []
       }
@@ -96,7 +112,6 @@
         "policies": []
       }
     },
-
     {
       "method": "PUT",
       "path": "/attendances/justification/:id",
@@ -105,7 +120,6 @@
         "policies": []
       }
     },
-
     {
       "method": "DELETE",
       "path": "/attendances/:id",
