@@ -1,6 +1,6 @@
 "use strict";
 
-const { default: createStrapi } = require("strapi");
+const { sanitizeEntity } = require("strapi-utils");
 
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
@@ -18,5 +18,25 @@ module.exports = {
       .model.find({ user_type: userType.id });
 
     return studentReponse;
+  },
+
+  async putProfil(ctx) {
+    const { data, userId, profilId, profilImage } = ctx.request.body;
+    const { firstName, lastName, bio } = data;
+    await strapi
+      .query("user", "users-permissions")
+      .update(
+        { id: userId },
+        { firstname: firstName, lastname: lastName, photo_link: profilImage }
+      )
+      .then(
+        async () =>
+          await strapi.query("Profil").update({ id: profilId }, { bio })
+      );
+
+    const profil = await strapi
+      .query("user", "users-permissions")
+      .model.find({ id: userId });
+    return sanitizeEntity(profil, { model: strapi.models.Profil });
   },
 };

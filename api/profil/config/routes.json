@@ -55,6 +55,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "PUT",
+      "path": "/students/editprofil/",
+      "handler": "profil.putProfil",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }
