@@ -22,16 +22,29 @@ module.exports = {
 
   async putProfil(ctx) {
     const { data, userId, profilId, profilImage } = ctx.request.body;
-    const { firstName, lastName, bio } = data;
+
+    const { firstName, lastName, bio, portfolioLink, linkedinProfil } = data;
+
     await strapi
       .query("user", "users-permissions")
       .update(
         { id: userId },
-        { firstname: firstName, lastname: lastName, photo_link: profilImage }
+        {
+          firstname: firstName,
+          lastname: lastName,
+          photo_link: profilImage,
+        }
       )
       .then(
         async () =>
-          await strapi.query("Profil").update({ id: profilId }, { bio })
+          await strapi.query("Profil").update(
+            { id: profilId },
+            {
+              bio,
+              link_portfolio: portfolioLink,
+              link_linkedin: linkedinProfil,
+            }
+          )
       );
 
     const profil = await strapi
