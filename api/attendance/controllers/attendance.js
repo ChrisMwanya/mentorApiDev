@@ -286,6 +286,10 @@ module.exports = {
       totalPresentRate = totalPresentRate == null ? 0 : totalPresentRate;
     }
 
+    totalLateRate = totalLateRate == null ? 0 : totalLateRate;
+    totalAbsentRate = totalAbsentRate == null ? 0 : totalAbsentRate;
+    totalPresentRate = totalPresentRate == null ? 0 : totalPresentRate;
+
     return {
       totalLateRate,
       totalAbsentRate,
