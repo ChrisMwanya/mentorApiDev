@@ -63,6 +63,14 @@
       "config": {
         "policies": []
       }
+    },
+    {
+      "method": "PUT",
+      "path": "/students/uploadfilepdf/",
+      "handler": "profil.uploadFilePdf",
+      "config": {
+        "policies": []
+      }
     }
   ]
 }

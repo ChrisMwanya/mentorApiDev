@@ -12,6 +12,7 @@
   "devDependencies": {},
   "dependencies": {
     "dotenv": "^16.0.1",
+    "nodemailer": "^6.7.5",
     "socket.io": "^4.4.1",
     "strapi": "3.6.9",
     "strapi-admin": "3.6.9",

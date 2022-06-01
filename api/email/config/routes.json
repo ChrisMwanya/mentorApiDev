@@ -5,6 +5,12 @@
       "path": "/emails",
       "handler": "Email.send",
       "config": {}
+    },
+    {
+      "method": "POST",
+      "path": "/emails/resetpassword",
+      "handler": "Email.resetPassWord",
+      "config": {}
     }
   ]
 }

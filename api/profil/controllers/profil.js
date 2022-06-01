@@ -52,4 +52,20 @@ module.exports = {
       .model.find({ id: userId });
     return sanitizeEntity(profil, { model: strapi.models.Profil });
   },
+
+  async uploadFilePdf(ctx) {
+    const { data, profilId } = ctx.request.body;
+    const { cvFile, lmFile, pdiFile } = data;
+
+    const profil = await strapi.query("Profil").update(
+      { id: profilId },
+      {
+        cv: cvFile,
+        lettre_motivation: lmFile,
+        pdi: pdiFile,
+      }
+    );
+
+    return sanitizeEntity(profil, { model: strapi.models.Profil });
+  },
 };

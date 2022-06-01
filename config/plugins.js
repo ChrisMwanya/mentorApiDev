@@ -1,17 +1,30 @@
 module.exports = ({ env }) => ({
+  // upload: {
+  //   provider: "aws-s3",
+  //   providerOptions: {
+  //     accessKeyId: env("AWS_ACCESS_KEY_ID"),
+  //     secretAccessKey: env("AWS_ACCESS_SECRET"),
+  //     region: env("AWS_REGION"),
+  //     params: {
+  //       Bucket: env("AWS_BUCKET_NAME"),
+  //       StorageClass: env("AWS_S3_STORAGE_CLASSES"), // Configure your Amazon S3 Storage Classes (including this to environment variable is not a must)
+  //     },
+  //     logger: console, // Only if you want to `stdout` logs
+  //   },
+  // },
   email: {
-    provider: "nodemailer",
+    provider: env("EMAIL_PROVIDER"),
     providerOptions: {
-      host: "smtp.sendgrid.net",
-      port: 587,
+      host: env("EMAIL_SMTP_HOST", "smtp.example.com"),
+      port: env("EMAIL_SMTP_PORT", 587),
       auth: {
-        user: "apiKey",
-        pass: "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",
+        user: env("EMAIL_SMTP_USER"),
+        pass: env("EMAIL_SMTP_PASS"),
       },
     },
     settings: {
-      defaultFrom: "francois@kinshasadigital.com",
-      defaultReplyTo: "francois@kinshasadigital.com",
+      defaultFrom: env("EMAIL_ADDRESS_FROM"),
+      defaultReplyTo: env("EMAIL_ADDRESS_REPLY"),
     },
   },
 });
