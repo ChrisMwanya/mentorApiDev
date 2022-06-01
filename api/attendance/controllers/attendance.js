@@ -281,22 +281,14 @@ module.exports = {
         totalPresentRate = parseInt((100 * totalPresentRate) / totalAttendance);
       }
 
-      totalLateRate =
-        totalLateRate === NaN || totalLateRate === null ? 0 : totalLateRate;
-      totalAbsentRate =
-        totalAbsentRate === NaN || totalAbsentRate === null
-          ? 0
-          : totalAbsentRate;
-      totalPresentRate =
-        totalPresentRate === NaN || totalPresentRate === null
-          ? 0
-          : totalPresentRate;
     }
 
+
     return {
-      totalLateRate,
-      totalAbsentRate,
-      totalPresentRate,
+      totalLateRate: !totalLateRate ? 0 : totalLateRate,
+      totalAbsentRate: !totalAbsentRate ? 0 : totalAbsentRate,
+      totalPresentRate: !totalPresentRate ? 0 : totalPresentRate,
+  
     };
   },
 };
