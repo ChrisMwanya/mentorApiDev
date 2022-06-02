@@ -1,6 +1,9 @@
 "use strict";
 
 const { sanitizeEntity } = require("strapi-utils");
+const {
+  jwtSecret,
+} = require("../../../extensions/users-permissions/config/jwt");
 
 module.exports = {
   index: async (ctx) => {
@@ -44,11 +47,33 @@ module.exports = {
 
   findUserByEmail: async (ctx) => {
     const { identifier } = ctx.params;
-    console.log("identifier", ctx.params);
     const user = await strapi
       .query("user", "users-permissions")
       .findOne({ email: identifier });
 
     return user.active;
+  },
+
+  resetPassword: async (ctx) => {
+    const { password, code, idUser } = ctx.request.body;
+
+    try {
+      if (code === jwtSecret) {
+        const newPassword = await strapi.plugins[
+          "users-permissions"
+        ].services.user.hashPassword({ password });
+
+        const response = await strapi
+          .query("user", "users-permissions")
+          .update(
+            { id: idUser },
+            { resetPasswordToken: null, password: newPassword, active: true }
+          );
+
+        ctx.send({ message: "Password updated" });
+      }
+    } catch (error) {
+      ctx.send({ error });
+    }
   },
 };

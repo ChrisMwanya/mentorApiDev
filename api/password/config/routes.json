@@ -9,6 +9,11 @@
       "method": "GET",
       "path": "/password/user_state/:identifier",
       "handler": "password.findUserByEmail"
+    },
+    {
+      "method": "PUT",
+      "path": "/password/newpassword",
+      "handler": "password.resetPassword"
     }
   ]
 }
