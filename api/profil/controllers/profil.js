@@ -50,22 +50,28 @@ module.exports = {
     const profil = await strapi
       .query("user", "users-permissions")
       .model.find({ id: userId });
-    return sanitizeEntity(profil, { model: strapi.models.Profil });
+    ctx.send({ message: "Email sent", profil });
   },
 
   async uploadFilePdf(ctx) {
     const { data, profilId } = ctx.request.body;
     const { cvFile, lmFile, pdiFile } = data;
 
-    const profil = await strapi.query("Profil").update(
-      { id: profilId },
-      {
-        cv: cvFile,
-        lettre_motivation: lmFile,
-        pdi: pdiFile,
-      }
-    );
-
-    return sanitizeEntity(profil, { model: strapi.models.Profil });
+    try {
+      await strapi
+        .query("Profil")
+        .update(
+          { id: profilId },
+          {
+            cv: cvFile,
+            lettre_motivation: lmFile,
+            pdi: pdiFile,
+          }
+        )
+        .then((response) => ctx.send({ response }))
+        .catch((error) => console.log(error));
+    } catch (error) {
+      strapi.log.error(`Error `, error);
+    }
   },
 };
