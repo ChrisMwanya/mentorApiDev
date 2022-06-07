@@ -59,10 +59,6 @@
       "plugin": "users-permissions",
       "configurable": false
     },
-    "user_type": {
-      "via": "users_permissions_users",
-      "model": "user-type"
-    },
     "academy": {
       "via": "personnel",
       "model": "academy"
@@ -70,9 +66,6 @@
     "attendances": {
       "via": "user_attendance",
       "collection": "attendance"
-    },
-    "active": {
-      "type": "boolean"
     },
     "justifications": {
       "via": "user",

@@ -13,11 +13,6 @@
   "attributes": {
     "type": {
       "type": "string"
-    },
-    "users_permissions_users": {
-      "via": "user_type",
-      "plugin": "users-permissions",
-      "collection": "user"
     }
   }
 }
