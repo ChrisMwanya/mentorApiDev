@@ -42,7 +42,7 @@ module.exports = {
         .model.find({ email: sendTo });
 
       if (user.length < 1) {
-        ctx.response.notFound("E-mail not found ", sendTo);
+        ctx.response.send("E-mail send", sendTo);
       } else {
         const urlResetPassword =
           url + "?code=" + jwtSecret + "&user=" + user[0].id;
