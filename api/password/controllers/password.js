@@ -58,20 +58,18 @@ module.exports = {
     const { password, code, idUser } = ctx.request.body;
 
     try {
-      if (code === jwtSecret) {
-        const newPassword = await strapi.plugins[
-          "users-permissions"
-        ].services.user.hashPassword({ password });
+      const newPassword = await strapi.plugins[
+        "users-permissions"
+      ].services.user.hashPassword({ password });
 
-        const response = await strapi
-          .query("user", "users-permissions")
-          .update(
-            { id: idUser },
-            { resetPasswordToken: null, password: newPassword, active: true }
-          );
+      const response = await strapi
+        .query("user", "users-permissions")
+        .update(
+          { id: idUser },
+          { resetPasswordToken: null, password: newPassword, active: true }
+        );
 
-        ctx.send({ message: "Password updated" });
-      }
+      ctx.send({ message: "Password updated" });
     } catch (error) {
       ctx.send({ error });
     }

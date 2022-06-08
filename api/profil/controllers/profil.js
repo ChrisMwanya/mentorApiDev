@@ -1,7 +1,5 @@
 "use strict";
 
-const { sanitizeEntity } = require("strapi-utils");
-
 /**
  * Read the documentation (https://strapi.io/documentation/developer-docs/latest/development/backend-customization.html#core-controllers)
  * to customize this controller
@@ -22,7 +20,6 @@ module.exports = {
 
   async putProfil(ctx) {
     const { data, userId, profilId, profilImage } = ctx.request.body;
-
     const { firstName, lastName, bio, portfolioLink, linkedinProfil } = data;
 
     await strapi
