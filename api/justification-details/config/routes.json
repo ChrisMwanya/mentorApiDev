@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/justification-details",
+      "handler": "justification-details.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/justification-details/count",
+      "handler": "justification-details.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/justification-details/:id",
+      "handler": "justification-details.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/justification-details",
+      "handler": "justification-details.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/justification-details/:id",
+      "handler": "justification-details.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/justification-details/:id",
+      "handler": "justification-details.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

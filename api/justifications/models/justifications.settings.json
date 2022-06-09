@@ -47,11 +47,15 @@
       "default": "waiting_validation"
     },
     "attendances": {
-      "collection": "attendance",
-      "via": "justification"
+      "via": "justification",
+      "collection": "attendance"
     },
     "feedback": {
       "type": "richtext"
+    },
+    "justification_details": {
+      "via": "justification",
+      "collection": "justification-details"
     }
   }
 }
