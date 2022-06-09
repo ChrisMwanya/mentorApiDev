@@ -30,8 +30,8 @@
       "type": "richtext"
     },
     "justification": {
-      "model": "justifications",
-      "via": "justification_details"
+      "via": "justification_details",
+      "model": "justifications"
     }
   }
 }
