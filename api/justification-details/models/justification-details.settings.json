@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "justification_details",
+  "info": {
+    "name": "Justification_details"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "note": {
+      "type": "richtext",
+      "required": true
+    },
+    "file_join": {
+      "model": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images"
+      ],
+      "plugin": "upload",
+      "required": false,
+      "pluginOptions": {}
+    },
+    "feedback": {
+      "type": "richtext"
+    },
+    "justification": {
+      "via": "justification_details",
+      "model": "justifications"
+    }
+  }
+}

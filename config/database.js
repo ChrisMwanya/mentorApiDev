@@ -4,12 +4,12 @@ module.exports = ({ env }) => ({
     default: {
       connector: 'mongoose',
       settings: {
-        host: env('DATABASE_HOST', '@cluster0.hrlcz.mongodb.net'),
-        srv: env.bool('DATABASE_SRV', true),
-        port: env.int('DATABASE_PORT', 27017),
-        database: env('DATABASE_NAME', 'logbook-student'),
-        username: env('DATABASE_USERNAME', 'KDA'),
-        password: env('DATABASE_PASSWORD', 'logbookAttendance'),
+        host: env('DATABASE_HOST'),
+        srv: env.bool('DATABASE_SRV'),
+        port: env.int('DATABASE_PORT'),
+        database: env('DATABASE_NAME'),
+        username: env('DATABASE_USERNAME'),
+        password: env('DATABASE_PASSWORD'),
       },
       options: {
         authenticationDatabase: env('AUTHENTICATION_DATABASE', null),

@@ -167,11 +167,12 @@ module.exports = {
 
       studentAttendance.name = studentName.username;
       studentAttendance.attendance = await studentAttendancesResponse.map(
-        ({ createdAt, state, id, attendance_day }) => ({
+        ({ createdAt, state, id, attendance_day, half_day }) => ({
           createdAt,
           state,
           id,
           attendance_day,
+          half_day,
         })
       );
       studentAttendance.id = studentId;
@@ -280,15 +281,12 @@ module.exports = {
         totalAbsentRate = parseInt((100 * totalAbsentRate) / totalAttendance);
         totalPresentRate = parseInt((100 * totalPresentRate) / totalAttendance);
       }
-
     }
-
 
     return {
       totalLateRate: !totalLateRate ? 0 : totalLateRate,
       totalAbsentRate: !totalAbsentRate ? 0 : totalAbsentRate,
       totalPresentRate: !totalPresentRate ? 0 : totalPresentRate,
-  
     };
   },
 };

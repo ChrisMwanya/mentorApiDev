@@ -17,9 +17,6 @@
       "required": true,
       "default": "waiting"
     },
-    "date": {
-      "type": "datetime"
-    },
     "value_qrcode": {
       "type": "text"
     },
