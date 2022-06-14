@@ -7,13 +7,13 @@
 
 module.exports = {
   async getStudent(ctx) {
-    const userType = await strapi
-      .query("User-type")
-      .findOne({ type: "Student" });
+    const role = await strapi
+      .query("role", "users-permissions")
+      .model.find({ name: "student" });
 
     const studentReponse = await strapi
       .query("user", "users-permissions")
-      .model.find({ user_type: userType.id });
+      .model.find({ role: role[0].id });
 
     return studentReponse;
   },
