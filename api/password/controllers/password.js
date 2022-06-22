@@ -66,7 +66,7 @@ module.exports = {
         .query("user", "users-permissions")
         .update(
           { id: idUser },
-          { resetPasswordToken: null, password: newPassword, active: true }
+          { resetPasswordToken: null, password: newPassword, confirmed: true }
         );
 
       ctx.send({ message: "Password updated" });
