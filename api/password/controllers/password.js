@@ -34,7 +34,6 @@ module.exports = {
         { resetPasswordToken: null, password: newPassword, active: true }
       );
 
-    // Return new jwt token
     return {
       jwt: strapi.plugins["users-permissions"].services.jwt.issue({
         id: user.id,
